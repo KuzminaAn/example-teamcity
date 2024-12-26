@@ -33,6 +33,8 @@ project {
     vcsRoot(HttpsGithubComKuzminaAnExampleTeamcityGitRefsHeadsMaster)
 
     buildType(Build)
+
+    buildType(BuildJar)
 }
 
 object Build : BuildType({
@@ -71,6 +73,30 @@ object Build : BuildType({
     features {
         perfmon {
         }
+    }
+})
+
+object BuildJar : BuildType({
+    name = "Build .jar"
+
+    vcs {
+        root(HttpsGithubComKuzminaAnExampleTeamcityGitRefsHeadsMaster)
+    }
+
+    steps {
+        maven {
+            id = "MavenJarBuild"
+            goals = "clean package"
+            runnerArgs = "-Dmaven.test.failure.ignore=true"
+        }
+    }
+
+    artifacts {
+        artifactRules = "target/*.jar"
+    }
+
+    triggers {
+        vcs { }
     }
 })
 
